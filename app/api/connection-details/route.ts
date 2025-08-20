@@ -86,7 +86,7 @@ function createParticipantToken(
     sub: userInfo.identity,
     metadata: metadata,
     video: {
-      room: '1-testing',
+      room: 'new-room',
       roomJoin: true,
       canPublish: true,
       canPublishData: true,
