@@ -1,15 +1,25 @@
+import { Dropdown } from '@/components/shared/dropdown';
 import { Button } from '@/components/ui/button';
+import personaOptions from '@/lib/personas.json';
 
 interface WelcomeProps {
   disabled: boolean;
   startButtonText: string;
   onStartCall: () => void;
+  language?: string;
+  persona?: string;
+  onLanguageChange?: (value: string) => void;
+  onPersonaChange?: (value: string) => void;
 }
 
 export const Welcome = ({
   disabled,
   startButtonText,
   onStartCall,
+  language,
+  persona,
+  onLanguageChange,
+  onPersonaChange,
   ref,
 }: React.ComponentProps<'div'> & WelcomeProps) => {
   return (
@@ -35,7 +45,32 @@ export const Welcome = ({
       <p className="text-fg1 max-w-prose pt-1 leading-6 font-medium">
         Chat live with your voice AI agent
       </p>
-      <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
+
+      {/* Dropdowns */}
+      <div className="my-8 flex gap-6">
+        <Dropdown
+          size="sm"
+          placeholder="Select Language"
+          value={language}
+          options={[
+            { label: 'English', value: 'en-IN' },
+            { label: 'Hindi', value: 'hi-IN' },
+            { label: 'Bengali', value: 'bn-IN' },
+          ]}
+          onValueChange={onLanguageChange}
+          className="w-48"
+        />
+        <Dropdown
+          size="sm"
+          placeholder="Select Persona"
+          value={persona}
+          options={personaOptions}
+          onValueChange={onPersonaChange}
+          className="w-48"
+        />
+      </div>
+
+      <Button variant="primary" size="lg" onClick={onStartCall} className="w-64 font-mono">
         {startButtonText}
       </Button>
       <p className="text-fg1 m fixed bottom-5 left-1/2 w-full max-w-prose -translate-x-1/2 pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">

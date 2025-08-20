@@ -16,12 +16,20 @@ export default function useConnectionDetails() {
 
   const [connectionDetails, setConnectionDetails] = useState<ConnectionDetails | null>(null);
 
-  const fetchConnectionDetails = useCallback(async () => {
+  const fetchConnectionDetails = useCallback(async (language?: string, persona?: string) => {
     setConnectionDetails(null);
     const url = new URL(
       process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ?? '/api/connection-details',
       window.location.origin
     );
+
+    // Add language and persona as query parameters
+    if (language) {
+      url.searchParams.set('language', language);
+    }
+    if (persona) {
+      url.searchParams.set('persona', persona);
+    }
 
     let data: ConnectionDetails;
     try {
@@ -56,13 +64,16 @@ export default function useConnectionDetails() {
     return expiresAt >= now;
   }, [connectionDetails?.participantToken]);
 
-  const existingOrRefreshConnectionDetails = useCallback(async () => {
-    if (isConnectionDetailsExpired() || !connectionDetails) {
-      return fetchConnectionDetails();
-    } else {
-      return connectionDetails;
-    }
-  }, [connectionDetails, fetchConnectionDetails, isConnectionDetailsExpired]);
+  const existingOrRefreshConnectionDetails = useCallback(
+    async (language?: string, persona?: string) => {
+      if (isConnectionDetailsExpired() || !connectionDetails) {
+        return fetchConnectionDetails(language, persona);
+      } else {
+        return connectionDetails;
+      }
+    },
+    [connectionDetails, fetchConnectionDetails, isConnectionDetailsExpired]
+  );
 
   return {
     connectionDetails,

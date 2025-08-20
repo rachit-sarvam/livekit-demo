@@ -21,12 +21,14 @@ interface AppProps {
 export function App({ appConfig }: AppProps) {
   const room = useMemo(() => new Room(), []);
   const [sessionStarted, setSessionStarted] = useState(false);
+  const [language, setLanguage] = useState<string>('');
+  const [persona, setPersona] = useState<string>('');
   const { refreshConnectionDetails, existingOrRefreshConnectionDetails } = useConnectionDetails();
 
   useEffect(() => {
     const onDisconnected = () => {
       setSessionStarted(false);
-      refreshConnectionDetails();
+      refreshConnectionDetails(language, persona);
     };
     const onMediaDevicesError = (error: Error) => {
       toastAlert({
@@ -40,7 +42,7 @@ export function App({ appConfig }: AppProps) {
       room.off(RoomEvent.Disconnected, onDisconnected);
       room.off(RoomEvent.MediaDevicesError, onMediaDevicesError);
     };
-  }, [room, refreshConnectionDetails]);
+  }, [room, refreshConnectionDetails, language, persona]);
 
   useEffect(() => {
     let aborted = false;
@@ -49,7 +51,7 @@ export function App({ appConfig }: AppProps) {
         room.localParticipant.setMicrophoneEnabled(true, undefined, {
           preConnectBuffer: appConfig.isPreConnectBufferEnabled,
         }),
-        existingOrRefreshConnectionDetails().then((connectionDetails) =>
+        existingOrRefreshConnectionDetails(language, persona).then((connectionDetails) =>
           room.connect(connectionDetails.serverUrl, connectionDetails.participantToken)
         ),
       ]).catch((error) => {
@@ -72,7 +74,14 @@ export function App({ appConfig }: AppProps) {
       aborted = true;
       room.disconnect();
     };
-  }, [room, sessionStarted, appConfig.isPreConnectBufferEnabled]);
+  }, [
+    room,
+    sessionStarted,
+    appConfig.isPreConnectBufferEnabled,
+    language,
+    persona,
+    existingOrRefreshConnectionDetails,
+  ]);
 
   const { startButtonText } = appConfig;
 
@@ -83,6 +92,10 @@ export function App({ appConfig }: AppProps) {
         startButtonText={startButtonText}
         onStartCall={() => setSessionStarted(true)}
         disabled={sessionStarted}
+        language={language}
+        persona={persona}
+        onLanguageChange={setLanguage}
+        onPersonaChange={setPersona}
         initial={{ opacity: 0 }}
         animate={{ opacity: sessionStarted ? 0 : 1 }}
         transition={{ duration: 0.5, ease: 'linear', delay: sessionStarted ? 0 : 0.5 }}

@@ -165,7 +165,12 @@ export default async function Image() {
             gap: 10,
           }}
         >
-          <img src={wordmarkSrcBase64} width={wordmarkSize.width} height={wordmarkSize.height} />
+          <img
+            src={wordmarkSrcBase64}
+            width={wordmarkSize.width}
+            height={wordmarkSize.height}
+            alt="Wordmark"
+          />
         </div>
         {/* logo */}
         <div
@@ -178,7 +183,7 @@ export default async function Image() {
             gap: 10,
           }}
         >
-          <img src={logoSrcBase64} width={logoSize.width} height={logoSize.height} />
+          <img src={logoSrcBase64} width={logoSize.width} height={logoSize.height} alt="Logo" />
         </div>
         {/* title */}
         <div

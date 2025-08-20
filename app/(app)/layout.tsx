@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import Image from 'next/image';
 import { getAppConfig } from '@/lib/utils';
 
 interface AppLayoutProps {
@@ -18,11 +19,19 @@ export default async function AppLayout({ children }: AppLayoutProps) {
           href="https://livekit.io"
           className="scale-100 transition-transform duration-300 hover:scale-110"
         >
-          <img src={logo} alt={`${companyName} Logo`} className="block size-6 dark:hidden" />
-          <img
+          <Image
+            src={logo}
+            alt={`${companyName} Logo`}
+            width={24}
+            height={24}
+            className="block dark:hidden"
+          />
+          <Image
             src={logoDark ?? logo}
             alt={`${companyName} Logo`}
-            className="hidden size-6 dark:block"
+            width={24}
+            height={24}
+            className="hidden dark:block"
           />
         </a>
         <span className="text-foreground font-mono text-xs font-bold tracking-wider uppercase">
