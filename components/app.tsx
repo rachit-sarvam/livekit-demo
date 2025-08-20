@@ -21,7 +21,7 @@ interface AppProps {
 export function App({ appConfig }: AppProps) {
   const room = useMemo(() => new Room(), []);
   const [sessionStarted, setSessionStarted] = useState(false);
-  const [language, setLanguage] = useState<string>('');
+  const [language, setLanguage] = useState<string>('en-IN');
   const [persona, setPersona] = useState<string>('');
   const { refreshConnectionDetails, existingOrRefreshConnectionDetails } = useConnectionDetails();
 

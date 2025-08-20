@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     // Extract language and persona from query parameters
     const { searchParams } = new URL(request.url);
-    const language = searchParams.get('language') || '';
+    const language = searchParams.get('language') || 'en-IN';
     const persona = searchParams.get('persona') || '';
 
     // Generate participant token
@@ -86,7 +86,7 @@ function createParticipantToken(
     sub: userInfo.identity,
     metadata: metadata,
     video: {
-      room: 'new-room2',
+      room: roomName,
       roomJoin: true,
       canPublish: true,
       canPublishData: true,
