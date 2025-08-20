@@ -67,7 +67,7 @@ export const Welcome = ({
         <div className="relative">
           <Dropdown
             size="sm"
-            placeholder="Select Persona *"
+            placeholder="Select Persona  *"
             value={persona}
             options={personaOptions}
             onValueChange={onPersonaChange}
