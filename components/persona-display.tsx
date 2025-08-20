@@ -28,7 +28,7 @@ interface PersonaDetail {
     consumer_id: string;
     due_date: string;
     last_bill_amount: number;
-    type: string;
+    type?: string;
   }>;
   linked_bank_accounts: Array<{
     bank_name: string;
@@ -50,7 +50,9 @@ interface PersonaDetail {
 
 export const PersonaDisplay: React.FC<PersonaDisplayProps> = ({ personaName }) => {
   // Find the persona details from the JSON file
-  const persona = personaDetails.personas.find((p: PersonaDetail) => p.name === personaName);
+  const persona = personaDetails.personas.find((p: PersonaDetail) => p.name === personaName) as
+    | PersonaDetail
+    | undefined;
 
   if (!persona) {
     return null;
