@@ -44,10 +44,6 @@ export default function useConnectionDetails() {
     return data;
   }, []);
 
-  useEffect(() => {
-    fetchConnectionDetails();
-  }, [fetchConnectionDetails]);
-
   const isConnectionDetailsExpired = useCallback(() => {
     const token = connectionDetails?.participantToken;
     if (!token) {

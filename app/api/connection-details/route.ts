@@ -67,7 +67,7 @@ export async function GET(request: Request) {
 function createParticipantToken(
   userInfo: AccessTokenOptions,
   roomName: string,
-  language: string = 'hi-IN',
+  language: string,
   persona: string = ''
 ) {
   const metadata = JSON.stringify({
