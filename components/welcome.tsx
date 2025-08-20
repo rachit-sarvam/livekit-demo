@@ -22,6 +22,10 @@ export const Welcome = ({
   onPersonaChange,
   ref,
 }: React.ComponentProps<'div'> & WelcomeProps) => {
+  // Check if persona is required and not selected
+  const isPersonaRequired = !persona || persona.trim() === '';
+  const isStartDisabled = disabled || isPersonaRequired;
+
   return (
     <div
       ref={ref}
@@ -60,17 +64,28 @@ export const Welcome = ({
           onValueChange={onLanguageChange}
           className="w-48"
         />
-        <Dropdown
-          size="sm"
-          placeholder="Select Persona"
-          value={persona}
-          options={personaOptions}
-          onValueChange={onPersonaChange}
-          className="w-48"
-        />
+        <div className="relative">
+          <Dropdown
+            size="sm"
+            placeholder="Select Persona *"
+            value={persona}
+            options={personaOptions}
+            onValueChange={onPersonaChange}
+            className={`w-48 ${isPersonaRequired ? 'border-red-500' : ''}`}
+          />
+          {isPersonaRequired && (
+            <p className="absolute left-0 mt-1 text-xs text-red-500">Please select a persona</p>
+          )}
+        </div>
       </div>
 
-      <Button variant="primary" size="lg" onClick={onStartCall} className="w-64 font-mono">
+      <Button
+        variant="primary"
+        size="lg"
+        onClick={onStartCall}
+        disabled={isStartDisabled}
+        className="w-64 font-mono"
+      >
         {startButtonText}
       </Button>
       <p className="text-fg1 m fixed bottom-5 left-1/2 w-full max-w-prose -translate-x-1/2 pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">

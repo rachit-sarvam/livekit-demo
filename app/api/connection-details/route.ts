@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     // Extract language and persona from query parameters
     const { searchParams } = new URL(request.url);
-    const language = searchParams.get('language') || 'hi-IN';
+    const language = searchParams.get('language') || '';
     const persona = searchParams.get('persona') || '';
 
     // Generate participant token

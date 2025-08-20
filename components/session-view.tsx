@@ -13,6 +13,7 @@ import { AgentControlBar } from '@/components/livekit/agent-control-bar/agent-co
 import { ChatEntry } from '@/components/livekit/chat/chat-entry';
 import { ChatMessageView } from '@/components/livekit/chat/chat-message-view';
 import { MediaTiles } from '@/components/livekit/media-tiles';
+import { PersonaDisplay } from '@/components/persona-display';
 import useChatAndTranscription from '@/hooks/useChatAndTranscription';
 import { useDebugMode } from '@/hooks/useDebug';
 import type { AppConfig } from '@/lib/types';
@@ -26,12 +27,14 @@ interface SessionViewProps {
   appConfig: AppConfig;
   disabled: boolean;
   sessionStarted: boolean;
+  persona?: string;
 }
 
 export const SessionView = ({
   appConfig,
   disabled,
   sessionStarted,
+  persona,
   ref,
 }: React.ComponentProps<'div'> & SessionViewProps) => {
   const { state: agentState } = useVoiceAssistant();
@@ -122,6 +125,12 @@ export const SessionView = ({
       </ChatMessageView>
 
       <div className="bg-background mp-12 fixed top-0 right-0 left-0 h-32 md:h-36">
+        {/* Persona Display */}
+        {persona && sessionStarted && (
+          <div className="absolute top-4 left-5 z-10 max-w-3xl">
+            <PersonaDisplay personaName={persona} />
+          </div>
+        )}
         {/* skrim */}
         <div className="from-background absolute bottom-0 left-0 h-12 w-full translate-y-full bg-gradient-to-b to-transparent" />
       </div>

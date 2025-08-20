@@ -110,6 +110,7 @@ export function App({ appConfig }: AppProps) {
           appConfig={appConfig}
           disabled={!sessionStarted}
           sessionStarted={sessionStarted}
+          persona={persona}
           initial={{ opacity: 0 }}
           animate={{ opacity: sessionStarted ? 1 : 0 }}
           transition={{
