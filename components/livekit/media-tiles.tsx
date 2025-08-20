@@ -88,9 +88,10 @@ export function useLocalTrackRef(source: Track.Source) {
 
 interface MediaTilesProps {
   chatOpen: boolean;
+  hasPersonaSidebar?: boolean;
 }
 
-export function MediaTiles({ chatOpen }: MediaTilesProps) {
+export function MediaTiles({ chatOpen, hasPersonaSidebar = false }: MediaTilesProps) {
   const {
     state: agentState,
     audioTrack: agentAudioTrack,
@@ -120,7 +121,12 @@ export function MediaTiles({ chatOpen }: MediaTilesProps) {
   const isAvatar = agentVideoTrack !== undefined;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-8 bottom-32 z-50 md:top-12 md:bottom-40">
+    <div
+      className={cn(
+        'pointer-events-none fixed top-8 right-0 bottom-32 z-50 md:top-12 md:bottom-40',
+        hasPersonaSidebar ? 'left-0 md:left-96' : 'left-0'
+      )}
+    >
       <div className="relative mx-auto h-full max-w-2xl px-4 md:px-0">
         <div className={cn(classNames.grid)}>
           {/* agent */}
