@@ -41,10 +41,37 @@ export const SessionView = ({
   const [chatOpen, setChatOpen] = useState(false);
   const { messages, send } = useChatAndTranscription();
   const room = useRoomContext();
+  const [connectionDetails, setConnectionDetails] = useState<any>(null);
 
   useDebugMode({
     enabled: process.env.NODE_END !== 'production',
   });
+
+  // Debug: Log connection details when they change
+  useEffect(() => {
+    console.log('Connection details changed:', connectionDetails);
+  }, [connectionDetails]);
+
+  // Fetch connection details when session starts
+  useEffect(() => {
+    if (sessionStarted && !connectionDetails) {
+      const fetchDetails = async () => {
+        try {
+          const url = new URL('/api/connection-details', window.location.origin);
+          if (persona) {
+            url.searchParams.set('persona', persona);
+          }
+          const res = await fetch(url.toString());
+          const data = await res.json();
+          console.log('Fetched connection details:', data);
+          setConnectionDetails(data);
+        } catch (error) {
+          console.error('Error fetching connection details:', error);
+        }
+      };
+      fetchDetails();
+    }
+  }, [sessionStarted, connectionDetails, persona]);
 
   async function handleSendMessage(message: string) {
     await send(message);
@@ -104,7 +131,13 @@ export const SessionView = ({
       {/* Left Sidebar - Persona Display */}
       {persona && sessionStarted && (
         <div className="bg-background/95 supports-[backdrop-filter]:bg-background/60 fixed top-0 left-0 z-40 hidden h-full w-96 border-r backdrop-blur md:block">
-          <PersonaDisplay personaName={persona} />
+          {/* Debug info */}
+          <div className="p-4 text-xs text-muted-foreground">
+            <div>Connection Details: {connectionDetails ? 'Loaded' : 'Not loaded'}</div>
+            <div>Room Name: {connectionDetails?.roomName || 'No room name'}</div>
+          </div>
+          
+          <PersonaDisplay personaName={persona} roomName={connectionDetails?.roomName} />
         </div>
       )}
 

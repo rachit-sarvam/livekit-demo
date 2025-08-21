@@ -5,6 +5,7 @@ import personaDetails from '@/lib/persona-details.json';
 
 interface PersonaDisplayProps {
   personaName: string;
+  roomName?: string;
 }
 
 interface PersonaDetail {
@@ -48,7 +49,7 @@ interface PersonaDetail {
   }>;
 }
 
-export const PersonaDisplay: React.FC<PersonaDisplayProps> = ({ personaName }) => {
+export const PersonaDisplay: React.FC<PersonaDisplayProps> = ({ personaName, roomName }) => {
   // Find the persona details from the JSON file
   const persona = personaDetails.personas.find((p: PersonaDetail) => p.name === personaName) as
     | PersonaDetail
@@ -111,6 +112,31 @@ export const PersonaDisplay: React.FC<PersonaDisplayProps> = ({ personaName }) =
           <p className="text-muted-foreground text-sm">Current Persona</p>
         </div>
       </div>
+
+      {/* Room Name Display */}
+      {roomName && (
+        <div className="mb-6 flex items-center gap-3 rounded-lg bg-muted/50 p-4">
+          <div className="bg-blue-500/10 rounded-full p-2">
+            <svg
+              className="text-blue-500 h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground">Room</h3>
+            <p className="font-mono text-sm break-all">{roomName}</p>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-6">
         {/* User Profile */}
