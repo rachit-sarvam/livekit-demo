@@ -115,10 +115,10 @@ export const PersonaDisplay: React.FC<PersonaDisplayProps> = ({ personaName, roo
 
       {/* Room Name Display */}
       {roomName && (
-        <div className="mb-6 flex items-center gap-3 rounded-lg bg-muted/50 p-4">
-          <div className="bg-blue-500/10 rounded-full p-2">
+        <div className="bg-muted/50 mb-6 flex items-center gap-3 rounded-lg p-4">
+          <div className="rounded-full bg-blue-500/10 p-2">
             <svg
-              className="text-blue-500 h-5 w-5"
+              className="h-5 w-5 text-blue-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -132,7 +132,7 @@ export const PersonaDisplay: React.FC<PersonaDisplayProps> = ({ personaName, roo
             </svg>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground">Room</h3>
+            <h3 className="text-muted-foreground text-sm font-medium">Room</h3>
             <p className="font-mono text-sm break-all">{roomName}</p>
           </div>
         </div>

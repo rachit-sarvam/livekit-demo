@@ -8,6 +8,7 @@ import {
   useRoomContext,
   useVoiceAssistant,
 } from '@livekit/components-react';
+import type { ConnectionDetails } from '@/app/api/connection-details/route';
 import { toastAlert } from '@/components/alert-toast';
 import { AgentControlBar } from '@/components/livekit/agent-control-bar/agent-control-bar';
 import { ChatEntry } from '@/components/livekit/chat/chat-entry';
@@ -41,7 +42,7 @@ export const SessionView = ({
   const [chatOpen, setChatOpen] = useState(false);
   const { messages, send } = useChatAndTranscription();
   const room = useRoomContext();
-  const [connectionDetails, setConnectionDetails] = useState<any>(null);
+  const [connectionDetails, setConnectionDetails] = useState<ConnectionDetails | null>(null);
 
   useDebugMode({
     enabled: process.env.NODE_END !== 'production',
@@ -132,11 +133,11 @@ export const SessionView = ({
       {persona && sessionStarted && (
         <div className="bg-background/95 supports-[backdrop-filter]:bg-background/60 fixed top-0 left-0 z-40 hidden h-full w-96 border-r backdrop-blur md:block">
           {/* Debug info */}
-          <div className="p-4 text-xs text-muted-foreground">
+          <div className="text-muted-foreground p-4 text-xs">
             <div>Connection Details: {connectionDetails ? 'Loaded' : 'Not loaded'}</div>
             <div>Room Name: {connectionDetails?.roomName || 'No room name'}</div>
           </div>
-          
+
           <PersonaDisplay personaName={persona} roomName={connectionDetails?.roomName} />
         </div>
       )}
